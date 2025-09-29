@@ -1,0 +1,15 @@
+#
+# Basic environment settings for building RHEL images
+#
+
+# RHEL image registry
+RHEL_REGISTRY=registry.redhat.io
+
+# Our image registry
+OUR_REGISTRY=quay.io/example
+
+# Our image repo/tag
+OUR_IMAGE=rhel-image:latest
+
+# Podman pull policy
+PULL_POLICY=missing

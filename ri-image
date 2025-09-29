@@ -1,0 +1,61 @@
+#!/usr/bin/sh
+
+# Change to build dir
+cd $(dirname $0) || exit 1
+
+# Set environment
+. ./ri-env
+
+# Check podman
+if ! rpm -q podman > /dev/null; then
+  echo "This script requires podman to be installed" 1>&2
+  exit 2
+fi
+
+# Check sudo
+if ! sudo /usr/bin/true > /dev/null; then
+  echo "This script uses sudo" 1>&2
+  exit 3
+fi
+
+# Check login status
+for registry in $RHEL_REGISTRY $OUR_REGISTRY; do
+  sudo podman login --get-login ${registry/\/*} > /dev/null || exit 4
+done
+
+# Pull required base and build images
+#echo "Pulling images..."
+#for image in registry.redhat.io/rhel9/bootc-image-builder:latest \
+#             registry.redhat.io/rhel9/rhel-bootc:latest \
+#             registry.redhat.io/rhel10/rhel-bootc:latest; do
+#  sudo podman pull $image || exit 5
+#done
+#exit 0
+
+# Build RHEL image
+echo "Building image ..."
+sudo podman build --pull=$PULL_POLICY -t $OUR_REGISTRY/$OUR_IMAGE . || exit 6
+
+# Push RHEL image to our registry
+echo "Pushing image ..."
+sudo podman push $OUR_REGISTRY/$OUR_IMAGE || exit 7
+
+# Create disk image
+echo "Creating disk image ..."
+sudo podman run --rm -t \
+  --privileged --security-opt label=type:unconfined_t \
+  -v ./config.json:/config.json:ro -v ./output:/output \
+  -v /var/lib/containers/storage:/var/lib/containers/storage \
+  registry.redhat.io/rhel9/bootc-image-builder:latest \
+  --type qcow2 --config /config.json $OUR_REGISTRY/$OUR_IMAGE || exit 7
+
+# Delete an earlier test VM
+#echo "Destroying old VM ..."
+#virsh destroy --domain bootc-vm ; virsh undefine --domain bootc-vm --remove-all-storage ;
+# Import the new disk image
+#echo "Importing new VM ..."
+#sudo virt-install --name bootc-vm --disk ./output/qcow2/disk.qcow2 --import \
+#  --memory 2048 --graphics none --osinfo rhel9-unknown --noautoconsole --noreboot
+# Run the bootc VM
+#echo "Starting the VM ..."
+#virsh start --domain bootc-vm ; virsh console --domain bootc-vm ;
