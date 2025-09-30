@@ -45,6 +45,9 @@ See also
 [https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index).
 
 See also
+[https://developers.redhat.com/articles/2025/03/18/how-use-rhel-system-roles-image-mode](https://developers.redhat.com/articles/2025/03/18/how-use-rhel-system-roles-image-mode).
+
+See also
 [https://github.com/myllynen/rhel-image](https://github.com/myllynen/rhel-image).
 
 ## License

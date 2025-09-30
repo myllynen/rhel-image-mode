@@ -47,7 +47,7 @@ sudo podman run --rm -t \
   -v ./config.json:/config.json:ro -v ./output:/output \
   -v /var/lib/containers/storage:/var/lib/containers/storage \
   registry.redhat.io/rhel9/bootc-image-builder:latest \
-  --type qcow2 --config /config.json $OUR_REGISTRY/$OUR_IMAGE || exit 7
+  --type qcow2 --config /config.json $OUR_REGISTRY/$OUR_IMAGE || exit 8
 
 # Delete an earlier test VM
 #echo "Destroying old VM ..."
