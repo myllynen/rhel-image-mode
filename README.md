@@ -20,7 +20,8 @@ A simple RHEL image mode example.
 
 ## RHEL Image Mode Example
 
-This repo contains a simple RHEL image mode example to make it easier to kick the tires.
+This repo contains a simple RHEL image mode example to make it easier to
+kick the tires.
 
 ```
 # Adjust to suite local environment,
@@ -35,6 +36,9 @@ vi ri-image
 # Run the build script
 ./ri-image
 ```
+
+NB. The ability to run RHEL system roles during build time is being
+worked on.
 
 ## See Also
 
