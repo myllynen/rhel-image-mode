@@ -8,6 +8,10 @@ RUN dnf -y install ansible-core rhel-system-roles
 ADD dot-ansible /root/dot-ansible
 # Add commands and playbooks
 ADD ansible /root/ansible
+RUN cp -p /usr/bin/ansible-config /root/ansible/ansible-config
+RUN cp -p /usr/bin/ansible-galaxy /root/ansible/ansible-galaxy
+# The systemd prefix is needed for ansible.builtin.service to work
+RUN cp -p /usr/bin/ansible-playbook /root/ansible/systemd-ansible-playbook
 
 # Generate list of package dependencies for roles to be used during runtime
 # See meta/mail.yml of each role to see if it supports bootc containerbuild
@@ -34,7 +38,10 @@ RUN --mount=type=bind,from=builder,source=/deps,target=/deps dnf -y install $(ca
 RUN --mount=type=bind,from=builder,source=/usr/lib/python3.9/site-packages,target=/usr/lib/python3.9/site-packages,ro \
     --mount=type=bind,from=builder,source=/root/dot-ansible,target=/root/.ansible,rw \
     --mount=type=bind,from=builder,source=/root/ansible,target=/root/ansible,ro \
-    /root/ansible/systemd-ansible-playbook-el9 -c local -i localhost, /root/ansible/baseline.yml
+    /root/ansible/ansible-galaxy collection list && \
+    /root/ansible/ansible-config dump --only-changed && \
+    /root/ansible/systemd-ansible-playbook --version && \
+    /root/ansible/systemd-ansible-playbook -c local -i localhost, /root/ansible/baseline.yml
 
 #RUN dnf -y install pcp-system-tools && dnf -C clean all && systemctl enable pmcd.service
 RUN dnf -y install pcp-system-tools && systemctl enable pmcd.service
