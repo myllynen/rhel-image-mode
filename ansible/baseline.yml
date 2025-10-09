@@ -1,0 +1,27 @@
+---
+- name: Configure RHEL bootc baseline
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    crypto_policies_policy: DEFAULT:NO-SHA1
+    crypto_policies_reload: false
+
+    firewall:
+      - previous: replaced
+      - zone: allow-ssh
+        permanent: true
+        state: present
+      - zone: allow-ssh
+        service:
+          - ssh
+        source:
+          - 192.168.0.0/16
+        target: DROP
+        permanent: true
+        state: enabled
+      - set_default_zone: drop
+
+  roles:
+    - redhat.rhel_system_roles.crypto_policies
+    - redhat.rhel_system_roles.firewall

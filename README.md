@@ -37,8 +37,7 @@ vi ri-image
 ./ri-image
 ```
 
-NB. The ability to run RHEL system roles during build time is being
-worked on.
+NB. `redhat.rhel_system_roles` must be version 1.108.6 or newer.
 
 ## See Also
 
@@ -47,6 +46,9 @@ See also
 
 See also
 [https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index).
+
+See also
+[https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles](https://console.redhat.com/ansible/automation-hub/repo/published/redhat/rhel_system_roles).
 
 See also
 [https://developers.redhat.com/articles/2025/03/18/how-use-rhel-system-roles-image-mode](https://developers.redhat.com/articles/2025/03/18/how-use-rhel-system-roles-image-mode).
