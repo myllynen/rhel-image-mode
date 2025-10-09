@@ -36,6 +36,7 @@ RUN --mount=type=bind,from=builder,source=/deps,target=/deps dnf -y install $(ca
 
 # Configure image with Ansible roles
 RUN --mount=type=bind,from=builder,source=/usr/lib/python3.9/site-packages,target=/usr/lib/python3.9/site-packages,ro \
+    --mount=type=bind,from=builder,source=/usr/share/ansible,target=/usr/share/ansible,ro \
     --mount=type=bind,from=builder,source=/root/dot-ansible,target=/root/.ansible,rw \
     --mount=type=bind,from=builder,source=/root/ansible,target=/root/ansible,ro \
     /root/ansible/ansible-galaxy collection list && \
