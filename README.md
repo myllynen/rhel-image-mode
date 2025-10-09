@@ -11,6 +11,8 @@ A simple RHEL image mode example.
   * Example to build RHEL container image
 * [config.json](config.json)
   * Example to customize RHEL container image
+* [ansible](ansible)
+  * Example playbook for configuring the image
 * [etc](etc)
   * Example content to include in RHEL container image
 * [ri-env](ri-env)
