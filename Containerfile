@@ -1,6 +1,8 @@
 #
 # Builder image
 #
+# NB. A proper builder image would be a better option
+#     here to avoid the build host dependencies below
 FROM registry.redhat.io/rhel9/rhel-bootc:latest as builder
 
 RUN dnf -y install ansible-core rhel-system-roles
@@ -45,10 +47,10 @@ RUN --mount=type=bind,from=builder,source=/usr/lib/python3.9/site-packages,targe
     /root/ansible/systemd-ansible-playbook -c local -i localhost, /root/ansible/baseline.yml
 
 #RUN dnf -y install pcp-system-tools && dnf -C clean all && systemctl enable pmcd.service
-RUN dnf -y install pcp-system-tools && systemctl enable pmcd.service
+#RUN dnf -y install pcp-system-tools && systemctl enable pmcd.service
 
 #RUN dnf -y install zsh && dnf -C clean all
-RUN dnf -y install zsh
+#RUN dnf -y install zsh
 
 #RUN dnf -y install tcpdump && dnf -C clean all
 #RUN dnf -y install tcpdump
